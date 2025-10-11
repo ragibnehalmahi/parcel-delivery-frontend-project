@@ -4,6 +4,7 @@ import Register from "@/pages/Register"
 import Login from "@/pages/Login"
 import HelpCenter from "@/pages/HelpCenter"
 import TermsOfService from "@/pages/TermsOfService"
+import App from "@/App"
 export const router = createBrowserRouter([
   {
     path: '/',
