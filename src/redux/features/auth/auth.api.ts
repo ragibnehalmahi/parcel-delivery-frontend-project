@@ -1,35 +1,65 @@
-<<<<<<< HEAD
-import { baseApi } from "@/redux/baseApi";
  
+import { baseApi } from "@/redux/baseApi";
+import { LoginRequest, LoginResponse, RegisterRequest,IResponse } from "@/type/auth.type";
+// import { IResponse, LoginRequest, LoginResponse, RegisterRequest, ISendOtp, IVerifyOtp } from  
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation({
+    // Authentication
+    login: builder.mutation<LoginResponse, LoginRequest>({
       query: (userInfo) => ({
         url: "/auth/login",
         method: "POST",
         data: userInfo,
       }),
     }),
-    logout: builder.mutation({
-      query: () => ({
-        url: "/auth/logout",
-        method: "POST",
-      }),
-      invalidatesTags: ["User"]
-    }),
-    register: builder.mutation({
+
+    register: builder.mutation<IResponse<any>, RegisterRequest>({
       query: (userInfo) => ({
-        url: "/user/register",
+        url: "/users/register",
         method: "POST",
         data: userInfo,
       }),
     }),
-    
-     
-    userInfo: builder.query({
+
+    logout: builder.mutation<IResponse<any>, void>({
       query: () => ({
-        url: "/user/me",
+        url: "/auth/logout",
+        method: "POST",
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    // // OTP Services
+    // sendOtp: builder.mutation<IResponse<null>, ISendOtp>({
+    //   query: (userInfo) => ({
+    //     url: "/otp/send",
+    //     method: "POST",
+    //     data: userInfo,
+    //   }),
+    // }),
+
+    // verifyOtp: builder.mutation<IResponse<null>, IVerifyOtp>({
+    //   query: (userInfo) => ({
+    //     url: "/otp/verify",
+    //     method: "POST",
+    //     data: userInfo,
+    //   }),
+    // }),
+
+    // Password Management
+    changePassword: builder.mutation<IResponse<any>, any>({
+      query: (data) => ({
+        url: "/auth/reset-password",
+        method: "POST",
+        data: data,
+      }),
+    }),
+
+    // User Info
+    userInfo: builder.query<IResponse<any>, void>({
+      query: () => ({
+        url: "/users/me",
         method: "GET",
       }),
       providesTags: ["User"],
@@ -38,55 +68,10 @@ export const authApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useRegisterMutation,
   useLoginMutation,
-   
-  useUserInfoQuery,
-  useLogoutMutation,
-=======
-import { baseApi } from "@/redux/baseApi";
- 
-
-export const authApi = baseApi.injectEndpoints({
-  endpoints: (builder) => ({
-    login: builder.mutation({
-      query: (userInfo) => ({
-        url: "/auth/login",
-        method: "POST",
-        data: userInfo,
-      }),
-    }),
-    logout: builder.mutation({
-      query: () => ({
-        url: "/auth/logout",
-        method: "POST",
-      }),
-      invalidatesTags: ["User"]
-    }),
-    register: builder.mutation({
-      query: (userInfo) => ({
-        url: "/user/register",
-        method: "POST",
-        data: userInfo,
-      }),
-    }),
-    
-     
-    userInfo: builder.query({
-      query: () => ({
-        url: "/user/me",
-        method: "GET",
-      }),
-      providesTags: ["User"],
-    }),
-  }),
-});
-
-export const {
   useRegisterMutation,
-  useLoginMutation,
-   
-  useUserInfoQuery,
   useLogoutMutation,
->>>>>>> 83f810d1e4f52bcfb5248d889b25b62f8f7b5a8b
+   
+  useChangePasswordMutation,
+  useUserInfoQuery,
 } = authApi;
