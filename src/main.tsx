@@ -1,3 +1,4 @@
+<<<<<<< HEAD
  
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -20,3 +21,15 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </ReduxProvider>
   </React.StrictMode>
 )
+=======
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.tsx'
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+>>>>>>> 83f810d1e4f52bcfb5248d889b25b62f8f7b5a8b
