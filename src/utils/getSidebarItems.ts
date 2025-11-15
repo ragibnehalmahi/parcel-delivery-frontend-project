@@ -1,8 +1,8 @@
 import { role } from "@/constants/role";
 import { adminSidebarItems } from "@/routes/adminSidebarItems";
-import { receiverSidebarItems } from "@/routes/receiverSideItem";
-import { senderSidebarItems } from "@/routes/senderSidebarItem";
-import { TRole } from "@/type";
+// import { receiverSidebarItems } from "@/routes/usersSidebarItems";  
+import { receiverSidebarItems, senderSidebarItems } from "@/routes/usersSidebarItems";  
+import {type TRole } from "@/type";
 export const getSidebarItems = (userRole: TRole) => {
   switch (userRole) {
     case role.Admin:

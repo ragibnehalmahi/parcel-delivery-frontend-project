@@ -1,7 +1,8 @@
-import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
-import { TRole } from "@/type";
  
-import { ComponentType } from "react";
+import { useUserInfoQuery } from "@/redux/features/auth.api";
+import type { TRole } from "@/type";  
+ 
+import {type ComponentType    } from "react";
 import { Navigate } from "react-router";
 
 export const withAuth = (Component: ComponentType, requiredRole?: TRole) => {
