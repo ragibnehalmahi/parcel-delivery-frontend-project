@@ -1,58 +1,49 @@
-// src/types/auth.types.ts
-
-import { IUser } from "./user.types";
-
- 
-
-export interface AuthTokens {
-  accessToken?: string;
-  refreshToken?: string;
-}
-
+// 🔹 Login Request
 export interface LoginRequest {
   email: string;
   password: string;
 }
 
+// 🔹 User Info (Nested in login response)
+export interface AuthUser {
+  _id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  picture: string | null;
+  address: string | null;
+  role: "ADMIN" | "SENDER" | "RECEIVER";
+  status: "ACTIVE" | "INACTIVE";
+  isDeleted: boolean;
+  isVerified: boolean;
+  location: string | null;
+  authProviders: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+// 🔹 Login Response
 export interface LoginResponse {
   success: boolean;
-  message?: string;
-  statusCode?:number
-  data?: {
-    user: IUser;
-    tokens: AuthTokens;
-    
+  message: string;
+  statusCode:number;
+  data: {
+    accessToken: string;
+    refreshToken: string;
+    user: AuthUser;
   };
 }
 
-export interface RegisterRequest {
-  name: string;
-  email: string;
-  password: string;
-  phone: string;
-  role?: "SENDER" | "RECEIVER";
+// 🔹 Logout Request
+export interface LogoutRequest {
+  refreshToken: string;
 }
 
-export interface RefreshTokenResponse {
+// 🔹 Logout Response
+export interface LogoutResponse {
   success: boolean;
-  tokens: AuthTokens;
-}
-
-export interface DecodedUser {
-  id: string;
-  email: string;
-  role: string;
-  iat?: number;
-  exp?: number;
-}
-export interface IResponse<T = any> {
-  success: boolean;
-  statusCode?: number;
   message: string;
-  data?: T;
-  errorSources?: Array<{
-    path: string;
+  data: {
     message: string;
-  }>;
-  stack?: string;
+  };
 }
