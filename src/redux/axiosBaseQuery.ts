@@ -1,28 +1,37 @@
+// src/redux/api/axiosBaseQuery.ts
 import { axiosInstance } from "@/lib/axios";
-import { BaseQueryFn } from "@reduxjs/toolkit/query";
-import { AxiosError, AxiosRequestConfig } from "axios";
+import {type BaseQueryFn } from "@reduxjs/toolkit/query";
+import { AxiosError, type AxiosRequestConfig } from "axios";
 
 const axiosBaseQuery =
   (): BaseQueryFn<
     {
       url: string;
       method?: AxiosRequestConfig["method"];
-      data?: AxiosRequestConfig["data"];
+      body?: AxiosRequestConfig["data"];
       params?: AxiosRequestConfig["params"];
       headers?: AxiosRequestConfig["headers"];
     },
     unknown,
     unknown
   > =>
-  async ({ url, method, data, params, headers }) => {
+  async ({ url, method = "GET", body, params, headers }) => {
     try {
+      // localStorage থেকে token আনো
+      const token = localStorage.getItem("accessToken");
+
+      // Axios দিয়ে API call করো
       const result = await axiosInstance({
-        url: url,
+        url,
         method,
-        data,
+        data: body,
         params,
-        headers,
+        headers: {
+          ...headers,
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
       });
+
       return { data: result.data };
     } catch (axiosError) {
       const err = axiosError as AxiosError;
