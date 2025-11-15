@@ -1,58 +1,87 @@
-import FAQ from "@/pages/FAQ"
-import About from "@/pages/About"
-import Register from "@/pages/Register"
-import Login from "@/pages/Login"
-import HelpCenter from "@/pages/HelpCenter"
-import TermsOfService from "@/pages/TermsOfService"
-import App from "@/App"
+import App from "@/App";
+import FAQPage from "@/pages/FAQPage";
+import AboutPage from "@/pages/AboutPage";
+import RegisterPage from "@/pages/RegisterPage";
+import LoginPage from "@/pages/LoginPage";
+import HelpCenterPage from "@/pages/HelpCenterPage";
+import TermsOfServicePage from "@/pages/TermsOfServicePage";
+import HomePage from "@/pages/HomePage";
+import UnauthorizedPage from "@/pages/UnauthorizedPage";
+import CareersPage from "@/pages/CareersPage";
+import ContactPage from "@/pages/ContactPage";
+import ProfilePage from "@/pages/MyProfile/ProfilePage";
+
+import { createBrowserRouter, Navigate } from "react-router-dom";
+import { withAuth } from "@/utils/withAuth";
+import DashboardLayout from "@/components/Layout/DashboardLayout";
+import { role } from "@/constants/role";
+import { generateRoutes } from "@/utils/generateRoutes";
+import { receiverSidebarItems, senderSidebarItems } from "./usersSidebarItems";
+import type { TRole } from "@/type";
+import { adminSidebarItems } from "./adminSidebarItems";
+import TrackParcelPage from "@/pages/TrackParcelPage";
+ 
+
 export const router = createBrowserRouter([
   {
-    path: '/',
-    element: <App />,
+    path: "/",
+    Component: App,
     children: [
-      // Public Routes
-      {
-        index: true,
-        element: <Home/>,
-      },
-      {
-        path: 'about',
-        element: <About/>,
-      },
-      {
-        path: 'contact',
-        element: <Contact />,
-      },
-      {
-        path: 'careers',
-        element: <Careers/>,
-      },
-      {
-        path: 'terms',
-        element: <TermsOfService/>
-      },
-      {
-        path: 'faq',
-        element: <FAQ/>,
-      },
-      {
-        path: 'help',
-        element: <HelpCenter/>
-      },
-      {
-        path: 'tracking/:trackingId?',
-        element: <Tracking />,
-      },
+      { index: true, Component: HomePage },
+      { path: "about", Component: AboutPage },
+      { path: "contact", Component: ContactPage },
+      { path: "careers", Component: CareersPage },
+      { path: "terms-service", Component: TermsOfServicePage },
+      { path: "frequently-asked-questions", Component: FAQPage },
+      { path: "help-center", Component: HelpCenterPage },
+    ],
+  },
 
-      // Authentication Routes
+  // ===================== SENDER ROUTES =====================
+  {
+    path: "/sender",
+    Component: withAuth(DashboardLayout, role.Sender as TRole),
+    children: [
+      { index: true, element: <Navigate to="/sender/parcelcreate" /> },
+      ...generateRoutes(senderSidebarItems),
       {
-        path: 'login',
-        element: <Login/>
+        path: "myprofile",
+        Component: withAuth(ProfilePage),
       },
-      {
-        path: 'register',
-        element: <Register/>
-      }]
+    ],
+  },
 
-      // Protected Routes - Admin
-       
+  // ===================== RECEIVER ROUTES =====================
+  {
+    path: "/receiver",
+    Component: withAuth(DashboardLayout, role.Receiver as TRole),
+    children: [
+      { index: true, element: <Navigate to="/receiver/viewincomingparcels" /> },
+      ...generateRoutes(receiverSidebarItems),
+      {
+        path: "myprofile",
+        Component: withAuth(ProfilePage),
+      },
+    ],
+  },
+  {
+        Component: withAuth(DashboardLayout, role.Admin as TRole),
+        path: "/admin",
+        children: [
+            { index: true, element: <Navigate to="/admin/analytics" /> },
+            ...generateRoutes(adminSidebarItems),
+            {
+                path: "myprofile",
+                Component: withAuth(ProfilePage),
+            },
+
+
+        ],
+
+    },
+  // ===================== AUTH ROUTES =====================
+  { path: "/login", Component: LoginPage },
+  { path: "/register", Component: RegisterPage },
+  { path: "/unauthorized", Component: UnauthorizedPage },
+  {path:"/track-parcel", Component: TrackParcelPage},
+]);
