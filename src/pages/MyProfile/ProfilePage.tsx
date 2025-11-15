@@ -1,121 +1,139 @@
- 
-import { User, Shield, Package, Truck } from 'lucide-react';
-import { useUserInfoQuery } from '@/redux/features/auth/auth.api';
-import PersonalInfoForm from './PersonalInfoForm';
-import PasswordChangeForm from './PasswordChangeForm';
- 
- 
+import { useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
+import { BadgeCheck } from "lucide-react";
+import PersonalInfoForm from "./PersonalInfoForm";
+import PasswordChangeForm from "./PasswordChangeForm";
+import { useUserInfoQuery } from "@/redux/features/auth.api";
+import { toast } from "sonner";
 
 const ProfilePage = () => {
-  const { data: userData, isLoading } = useUserInfoQuery(undefined);
+  // ✅ RTK Query hook with auto refetching
+  const {
+    data: userResponse,
+    isLoading,
+    isError,
+    refetch,
+  } = useUserInfoQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
 
+  const user = userResponse?.data;
+
+  // ✅ Manual refetch on mount (extra reliability)
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        await refetch();
+      } catch (error) {
+        console.error("❌ Refetch failed:", error);
+        toast.error("Failed to fetch latest profile info");
+      }
+    };
+    fetchProfile();
+  }, [refetch]);
+
+  // ✅ Loading state
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex justify-center items-center h-full p-4">
+        <Skeleton className="w-full max-w-2xl h-[400px] rounded-lg" />
       </div>
     );
   }
 
-  const user = userData?.data?.user;
-
-  if (!user) {
+  // ✅ Error / Missing user state
+  if (isError || !user) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">User not found</h2>
-          <p className="text-gray-600">Please log in to view your profile.</p>
-        </div>
+      <div className="text-center text-red-500 p-8">
+        Failed to load user profile.
       </div>
     );
   }
 
-  // Role-based icons and colors
-  const getRoleDetails = (role: string) => {
-    switch (role) {
-      case 'ADMIN':
-        return { icon: Shield, color: 'bg-purple-100 text-purple-600' };
-      case 'SENDER':
-        return { icon: Package, color: 'bg-blue-100 text-blue-600' };
-      case 'RECEIVER':
-        return { icon: Truck, color: 'bg-green-100 text-green-600' };
-      default:
-        return { icon: User, color: 'bg-gray-100 text-gray-600' };
-    }
-  };
+  // ✅ Normalize status (case-insensitive)
+  const normalizedStatus = user.status?.toUpperCase();
+  const isActive = normalizedStatus === "ACTIVE";
+  const isBlocked = normalizedStatus === "BLOCKED";
 
-  const { icon: RoleIcon, color } = getRoleDetails(user.role);
+  // ✅ Status badge color
+  const statusClasses = isActive
+    ? "bg-green-100 text-green-700 border-green-200"
+    : isBlocked
+    ? "bg-gray-200 text-gray-700 border-gray-300"
+    : "bg-red-100 text-red-700 border-red-200";
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="bg-white rounded-2xl shadow-sm p-8">
-            {/* Avatar */}
-            <div className="flex items-center justify-center mb-4">
-              <div className="relative">
-                <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
-                  {user.name?.charAt(0).toUpperCase()}
-                </div>
-                <div className={`absolute -bottom-2 -right-2 p-2 rounded-full ${color}`}>
-                  <RoleIcon className="h-5 w-5" />
-                </div>
-              </div>
-            </div>
+    <div className="p-6 flex flex-col items-center">
+      {/* 🧍‍♂️ Profile Header */}
+      <div className="flex flex-col items-center mb-8">
+        <div className="relative w-24 h-24 mb-4">
+          <Avatar className="w-24 h-24">
+            <AvatarFallback className="text-4xl">
+              {user.name?.charAt(0).toUpperCase() || "U"}
+            </AvatarFallback>
+          </Avatar>
 
-            {/* User Info */}
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">{user.name}</h1>
-            <p className="text-gray-600 mb-4">{user.email}</p>
-            
-            {/* Role Badge */}
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 text-gray-800 font-medium">
-              <RoleIcon className="h-4 w-4 mr-2" />
-              {user.role}
-            </div>
-          </div>
+          {/* 🟢 Active/Inactive Indicator */}
+          <span
+            className={`absolute bottom-2 right-2 w-5 h-5 rounded-full border-4 border-white dark:border-gray-900 ${
+              isActive ? "bg-green-500" : isBlocked ? "bg-gray-400" : "bg-red-500"
+            }`}
+            title={normalizedStatus}
+          ></span>
         </div>
 
-        {/* Content Tabs */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Personal Information */}
-          <div className="bg-white rounded-2xl shadow-sm p-6">
-            <div className="flex items-center mb-6">
-              <User className="h-6 w-6 text-blue-600 mr-3" />
-              <h2 className="text-xl font-bold text-gray-900">Personal Information</h2>
-            </div>
-            <PersonalInfoForm userData={user} />
-          </div>
+        <h1 className="text-3xl font-bold flex items-center gap-2">
+          {user.name}
+          {isActive && <BadgeCheck className="w-6 h-6 text-green-500" />}
+        </h1>
 
-          {/* Password Change */}
-          <div className="bg-white rounded-2xl shadow-sm p-6">
-            <div className="flex items-center mb-6">
-              <Shield className="h-6 w-6 text-green-600 mr-3" />
-              <h2 className="text-xl font-bold text-gray-900">Security</h2>
-            </div>
-            <PasswordChangeForm />
-          </div>
-        </div>
+        <p className="text-gray-500 dark:text-gray-400 text-lg">{user.email}</p>
 
-        {/* Additional Info */}
-        <div className="bg-white rounded-2xl shadow-sm p-6 mt-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Account Details</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-            <div>
-              <span className="text-gray-500">Member Since</span>
-              <p className="font-medium">{new Date(user.createdAt).toLocaleDateString()}</p>
-            </div>
-            <div>
-              <span className="text-gray-500">Account Status</span>
-              <p className="font-medium text-green-600">Active</p>
-            </div>
-            <div>
-              <span className="text-gray-500">Last Updated</span>
-              <p className="font-medium">{new Date(user.updatedAt).toLocaleDateString()}</p>
-            </div>
-          </div>
+        <div className="flex gap-4 mt-3">
+          {/* 🧩 Role Badge */}
+          <span className="px-3 py-1 rounded-full bg-orange-100 text-orange-700 font-semibold border border-orange-200 text-sm">
+            Role: {user.role}
+          </span>
+
+          {/* 🟢 Status Badge */}
+          <span
+            className={`px-3 py-1 rounded-full font-semibold border text-sm ${statusClasses}`}
+          >
+            {normalizedStatus}
+          </span>
         </div>
       </div>
+
+      {/* ⚙️ Profile Settings Tabs */}
+      <Card className="w-full max-w-2xl shadow-lg rounded-2xl border-0">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold text-orange-700">
+            Profile Settings
+          </CardTitle>
+        </CardHeader>
+
+        <CardContent>
+          <Tabs defaultValue="info" className="w-full">
+            <TabsList className="grid grid-cols-2 w-full mb-6">
+              <TabsTrigger value="info">Personal Info</TabsTrigger>
+              <TabsTrigger value="password">Change Password</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="info">
+              <PersonalInfoForm initialData={user} />
+            </TabsContent>
+
+            <TabsContent value="password">
+              <PasswordChangeForm />
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
     </div>
   );
 };
