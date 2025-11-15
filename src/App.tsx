@@ -1,11 +1,13 @@
-import CommonLayout from "./components/layout/CommonLayout"
+ 
+ 
 import { Outlet } from "react-router"
+ import './App.css'
 function App() {
   return (
     <div>
-      <CommonLayout>
+       
         <Outlet></Outlet>
-      </CommonLayout>
+     
     </div>
   )
 }
