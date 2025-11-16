@@ -118,7 +118,7 @@ export function RegisterForm({
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Create Account</h1>
           <p className="text-sm text-gray-600 mt-1">
-            Join LogistiCore and start shipping smarter
+            Join SwiftParcel company and start shipping smarter
           </p>
         </div>
       </div>
@@ -283,3 +283,4 @@ export function RegisterForm({
     </div>
   );
 }
+
