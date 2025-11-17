@@ -29,12 +29,12 @@ export default function RegisterPage() {
               <h1 className="text-4xl font-bold mb-4 leading-tight">
                 Join
                 <span className="block bg-gradient-to-r from-green-300 to-blue-300 bg-clip-text text-transparent">
-                  LogistiCore
+                  SwiftParcelCore
                 </span>
               </h1>
               <p className="text-lg text-blue-100 leading-relaxed">
                 Start your journey with intelligent parcel delivery. 
-                Create your account and experience next-generation logistics powered by AI.
+                Create your account and experience next-generation SwiftParcelcs powered by AI.
               </p>
             </div>
 
@@ -92,7 +92,7 @@ export default function RegisterPage() {
               <Rocket className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-              LogistiCore
+              SwiftParcelCore
             </span>
           </Link>
         </div>

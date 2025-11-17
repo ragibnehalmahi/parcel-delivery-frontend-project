@@ -20,7 +20,7 @@ const ContactPage = () => {
       icon: Mail,
       title: "Email Us",
       description: "Our friendly team is here to help.",
-      contact: "hello@logisticore.com",
+      contact: "hello@SwiftParcelcore.com",
       action: "Send email"
     },
     {

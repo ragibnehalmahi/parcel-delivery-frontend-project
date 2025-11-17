@@ -79,7 +79,7 @@ const UnauthorizedPage = () => {
                 <CardContent className="p-6">
                   <p className="text-blue-700">
                     Need access to this page? Contact your administrator or 
-                    <a href="mailto:support@logisticore.com" className="font-semibold underline ml-1">
+                    <a href="mailto:support@SwiftParcelcore.com" className="font-semibold underline ml-1">
                       request access here
                     </a>
                   </p>

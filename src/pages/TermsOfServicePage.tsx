@@ -8,7 +8,7 @@ const TermsOfServicePage = () => {
     {
       icon: ScrollText,
       title: "1. Agreement to Terms",
-      content: "By accessing and using LogistiCore's AI-powered delivery platform, you agree to be bound by these Terms of Service and all applicable laws and regulations."
+      content: "By accessing and using SwiftParcelCore's AI-powered delivery platform, you agree to be bound by these Terms of Service and all applicable laws and regulations."
     },
     {
       icon: Shield,
@@ -63,7 +63,7 @@ const TermsOfServicePage = () => {
               {/* Introduction */}
               <div className="prose prose-lg max-w-none mb-12">
                 <p className="text-gray-600 leading-relaxed">
-                  Welcome to LogistiCore. These Terms of Service govern your use of our AI-powered 
+                  Welcome to SwiftParcelCore. These Terms of Service govern your use of our AI-powered 
                   parcel delivery platform and related services. By accessing or using our services, 
                   you agree to these terms.
                 </p>
@@ -125,7 +125,7 @@ const TermsOfServicePage = () => {
                     Contact our legal team for any questions regarding these terms of service.
                   </p>
                   <p className="text-blue-600 font-semibold">
-                    legal@logisticore.com
+                    legal@SwiftParcelcore.com
                   </p>
                 </CardContent>
               </Card>

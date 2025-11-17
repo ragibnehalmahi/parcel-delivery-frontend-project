@@ -58,7 +58,7 @@ const CareersPage = () => {
       type: "Full-time",
       location: "Boston, MA",
       salary: "$100k - $140k", 
-      description: "Analyze delivery patterns and build predictive models for logistics optimization.",
+      description: "Analyze delivery patterns and build predictive models for SwiftParcelcs optimization.",
       tags: ["Python", "SQL", "Statistics", "ML"]
     }
   ];
@@ -96,7 +96,7 @@ const CareersPage = () => {
               Join Our Team
             </h1>
             <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
-              Help us revolutionize parcel delivery with AI. Build the future of logistics.
+              Help us revolutionize parcel delivery with AI. Build the future of SwiftParcelcs.
             </p>
           </div>
         </section>

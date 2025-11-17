@@ -21,7 +21,7 @@ export default function LoginPage() {
               <Rocket className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              LogistiCore
+              SwiftParcelCore
             </span>
           </Link>
         </div>
@@ -80,7 +80,7 @@ export default function LoginPage() {
                 </span>
               </h1>
               <p className="text-lg text-blue-100 leading-relaxed">
-                Experience AI-powered logistics with real-time tracking, 
+                Experience AI-powered SwiftParcelcs with real-time tracking, 
                 intelligent routing, and seamless delivery management.
               </p>
             </div>
