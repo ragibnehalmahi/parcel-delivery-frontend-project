@@ -3,7 +3,7 @@
 ![Parcel Delivery System](https://img.shields.io/badge/React-Parcel%20Delivery-blue?style=for-the-badge&logo=react) ![TypeScript](https://img.shields.io/badge/TypeScript-Frontend-blue?style=for-the-badge&logo=typescript) ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-Styling-blue?style=for-the-badge&logo=tailwind-css) ![RTK Query](https://img.shields.io/badge/RTK%20Query-State%20Management-orange?style=for-the-badge&logo=redux)
 
 A modern, responsive frontend application for a comprehensive Parcel Delivery System built with React, TypeScript, and Tailwind CSS. This project implements role-based access for senders, receivers, and admins, featuring parcel creation, tracking, management, and real-time updates.
-
+- **Develoyed**: https://parcel-frontend-one.vercel.app/ 
 ## 🌟 Features
 
 ### 🔐 Authentication & Authorization
